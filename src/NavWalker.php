@@ -77,7 +77,7 @@ class NavWalker extends Walker_Nav_Menu
         parent::display_element($element, $children_elements, $max_depth, $depth, $args, $output);
     }
 
-    public function cssClasses($classes, $item)
+    public function cssClasses($classes, $item, $args, $depth)
     {
         $slug = sanitize_title($item->title);
 
@@ -107,16 +107,55 @@ class NavWalker extends Walker_Nav_Menu
         // Add `menu-<slug>` class
         $classes[] = 'menu-' . $slug;
 
+        //add megamenu class if it's selected
+        if($item->use_megamenu && $depth == 0) {
+            $classes[] = 'megamenu';
+        }
+
+        //Add column to mega menu elements
+        if($depth == 1) {
+            if($item->menu_item_parent) {
+                $parent_use_megamenu = get_post_meta($item->menu_item_parent, '_menu_item_use_megamenu', true);
+                $parent_panel_column = get_post_meta($item->menu_item_parent, '_menu_item_panel_column', true);
+                if($parent_use_megamenu) {
+                    $total_col = $parent_panel_column ? $parent_panel_column : 4;
+                    $num_col = $item->mega_item_column && $item->mega_item_column > 0 ? $item->mega_item_column : 1;
+                    $classes[] = 'col-md-'.$this->megaMenuItemColumnClass($total_col, $num_col).' col-sm-6 col-xs-12';
+                }
+            }
+        }
+
         $classes = array_unique($classes);
         $classes = array_map('trim', $classes);
 
         return array_filter($classes);
     }
 
+    public function cssSubClasses($classes)
+    {
+
+        // add clearfix for clear float
+        $classes[] = 'clearfix';
+
+        $classes = array_unique($classes);
+        $classes = array_map('trim', $classes);
+
+        return array_filter($classes);
+    }
+
+    protected function megaMenuItemColumnClass($total = 4, $col = 1) {
+        $col = $col > $total ? $total : $col;
+        if($total == 5) {
+            return '15';
+        }
+        return 12/$total*$col;
+    }
+
     public function walk($elements, $max_depth, ...$args)
     {
         // Add filters
-        add_filter('nav_menu_css_class', array($this, 'cssClasses'), 10, 2);
+        add_filter('nav_menu_css_class', array($this, 'cssClasses'), 10, 4);
+        add_filter('nav_menu_submenu_css_class', array($this, 'cssSubClasses'), 10, 1);
         add_filter('nav_menu_item_id', '__return_null');
 
         // Perform usual walk
@@ -124,6 +163,7 @@ class NavWalker extends Walker_Nav_Menu
 
         // Unregister filters
         remove_filter('nav_menu_css_class', [$this, 'cssClasses']);
+        remove_filter('nav_menu_submenu_css_class', [$this, 'cssSubClasses']);
         remove_filter('nav_menu_item_id', '__return_null');
 
         // Return result
