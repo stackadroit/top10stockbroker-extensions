@@ -88,8 +88,8 @@ class Topstockbroker
         ));
 
         if (!$this->features) {
-            $this->features = isset($GLOBALS['_wp_theme_features']['soil'][0])
-                ? $this->features($GLOBALS['_wp_theme_features']['soil'][0])
+            $this->features = isset($GLOBALS['_wp_theme_features']['topstockbroker'][0])
+                ? $this->features($GLOBALS['_wp_theme_features']['topstockbroker'][0])
                 : null;
         }
 
