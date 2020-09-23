@@ -55,3 +55,13 @@ function compare_base_url($base_url, $input_url, $strict_scheme = true)
 
     return true;
 }
+
+function megamenu_columns() {
+    return array(
+        '2' => esc_html__('2 columns', 'efarm'),
+        '3' => esc_html__('3 columns', 'efarm'),
+        '4' => esc_html__('4 columns', 'efarm'),
+        '5' => esc_html__('5 columns', 'efarm'),
+        '6' => esc_html__('6 columns', 'efarm'),
+    );
+}
