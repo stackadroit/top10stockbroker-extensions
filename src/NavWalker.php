@@ -97,17 +97,17 @@ class NavWalker extends Walker_Nav_Menu
         $classes = preg_replace('/^((menu|page)[-_\w+]+)+/', '', $classes);
 
         // Re-add core `menu-item` class
-        //$classes[] = 'menu-item';
+        $classes[] = 'menu-item';
 
         // Re-add core `menu-item-has-children` class on parent elements
         if ($item->is_subitem && $depth == 0) {
-            //$classes[] = 'menu-item-has-children';
-            $classes[] = 'dropdown';
+            $classes[] = 'menu-item-has-children';
+            //$classes[] = 'dropdown';
         }
 
         if ($item->is_subitem && $depth == 1) {
-            //$classes[] = 'menu-item-has-children';
-            $classes[] = 'dropdown-submenu';
+            $classes[] = 'menu-item-has-children';
+            //$classes[] = 'dropdown-submenu';
         }
 
         // Add `menu-<slug>` class
@@ -144,25 +144,13 @@ class NavWalker extends Walker_Nav_Menu
         $classes[] = 'clearfix';
 
         // drop down menu
-        $classes[] = 'dropdown-menu';
+        //$classes[] = 'dropdown-menu';
 
 
         $classes = array_unique($classes);
         $classes = array_map('trim', $classes);
 
         return array_filter($classes);
-    }
-
-    public function linkAttributes($atts, $item, $args, $depth)
-    {
-        $class = '';
-        if ($item->is_subitem && $depth == 0) {
-            $class = 'dropdown-toggle ';
-        }
-
-        $atts['class'] = $class . 'dropdown-item';
-
-        return $atts;
     }
 
     protected function megaMenuItemColumnClass($total = 4, $col = 1) {
@@ -178,7 +166,6 @@ class NavWalker extends Walker_Nav_Menu
         // Add filters
         add_filter('nav_menu_css_class', array($this, 'cssClasses'), 10, 4);
         add_filter('nav_menu_submenu_css_class', array($this, 'cssSubClasses'), 10, 4);
-        add_filter('nav_menu_link_attributes', array($this, 'linkAttributes'), 10, 4);
         add_filter('nav_menu_item_id', '__return_null');
 
         // Perform usual walk
@@ -187,7 +174,6 @@ class NavWalker extends Walker_Nav_Menu
         // Unregister filters
         remove_filter('nav_menu_css_class', [$this, 'cssClasses']);
         remove_filter('nav_menu_submenu_css_class', [$this, 'cssSubClasses']);
-        remove_filter('nav_menu_link_attributes', [$this, 'linkAttributes']);
         remove_filter('nav_menu_item_id', '__return_null');
 
         // Return result
