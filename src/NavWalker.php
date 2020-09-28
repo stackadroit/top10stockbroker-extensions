@@ -152,6 +152,21 @@ class NavWalker extends Walker_Nav_Menu
 
         return array_filter($classes);
     }
+    
+    public function itemTitle($title, $item, $args, $depth){
+        $item_output = '';
+        
+        $item_output .= $title;
+
+        $parent_use_megamenu =get_post_meta($item->menu_item_parent, '_menu_item_use_megamenu', true);
+        if($args->walker->has_children && ($depth == 0)) {
+                $item_output .= '<span class="open-submenu"><i class="fa fa-angle-down"></i></span></a>';
+        }elseif($args->walker->has_children && (($depth == 1 && !$parent_use_megamenu))){
+                $item_output .= '<span class="open-submenu"><i class="fa fa-angle-right"></i></span></a>';
+        }
+
+        return $item_output;
+    }
 
     protected function megaMenuItemColumnClass($total = 4, $col = 1) {
         $col = $col > $total ? $total : $col;
@@ -166,6 +181,7 @@ class NavWalker extends Walker_Nav_Menu
         // Add filters
         add_filter('nav_menu_css_class', array($this, 'cssClasses'), 10, 4);
         add_filter('nav_menu_submenu_css_class', array($this, 'cssSubClasses'), 10, 4);
+        add_filter('nav_menu_item_title', array($this, 'itemTitle'), 10, 4);
         add_filter('nav_menu_item_id', '__return_null');
 
         // Perform usual walk
@@ -174,6 +190,7 @@ class NavWalker extends Walker_Nav_Menu
         // Unregister filters
         remove_filter('nav_menu_css_class', [$this, 'cssClasses']);
         remove_filter('nav_menu_submenu_css_class', [$this, 'cssSubClasses']);
+        remove_filter('nav_menu_item_title', [$this, 'itemTitle']);
         remove_filter('nav_menu_item_id', '__return_null');
 
         // Return result
