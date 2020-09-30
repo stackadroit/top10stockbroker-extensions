@@ -165,6 +165,17 @@ class NavWalker extends Walker_Nav_Menu
                 $item_output .= '<span class="open-submenu"><i class="fa fa-angle-right"></i></span></a>';
         }
 
+        
+            
+        return $item_output;
+    }
+
+    public function navMenuStartEl( $item_output, $item, $depth, $args ){
+
+        if($args->walker->has_children && ($depth == 0 || ($depth == 1))) {
+            $item_output .= '<span class="caret-submenu"><i class="fa fa-angle-down" aria-hidden="true"></i></span>';
+        }
+
         return $item_output;
     }
 
@@ -182,6 +193,7 @@ class NavWalker extends Walker_Nav_Menu
         add_filter('nav_menu_css_class', array($this, 'cssClasses'), 10, 4);
         add_filter('nav_menu_submenu_css_class', array($this, 'cssSubClasses'), 10, 4);
         add_filter('nav_menu_item_title', array($this, 'itemTitle'), 10, 4);
+        add_filter('walker_nav_menu_start_el', array($this, 'navMenuStartEl'), 10, 4);
         add_filter('nav_menu_item_id', '__return_null');
 
         // Perform usual walk
@@ -191,6 +203,7 @@ class NavWalker extends Walker_Nav_Menu
         remove_filter('nav_menu_css_class', [$this, 'cssClasses']);
         remove_filter('nav_menu_submenu_css_class', [$this, 'cssSubClasses']);
         remove_filter('nav_menu_item_title', [$this, 'itemTitle']);
+        remove_filter('walker_nav_menu_start_el', [$this, 'navMenuStartEl']);
         remove_filter('nav_menu_item_id', '__return_null');
 
         // Return result
