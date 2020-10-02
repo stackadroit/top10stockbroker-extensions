@@ -150,6 +150,11 @@ class NavWalker extends Walker_Nav_Menu
     public function itemTitle($title, $item, $args, $depth){
         $item_output = '';
         
+        $el_use_icon = get_post_meta($item->ID, '_menu_item_list_icon', true);
+        if($el_use_icon){
+            $item_output .= '<i class="fas fa-angle-right"></i>';
+        }
+       
         $item_output .= $title;
 
         $parent_use_megamenu =get_post_meta($item->menu_item_parent, '_menu_item_use_megamenu', true);

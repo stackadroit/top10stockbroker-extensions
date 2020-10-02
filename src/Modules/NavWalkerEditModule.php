@@ -44,6 +44,9 @@ class NavWalkerEditModule extends AbstractModule
         $use_megamenu = isset($_POST['menu-item-use_megamenu'][$menu_item_db_id]) ? 1 : 0;
         update_post_meta($menu_item_db_id, '_menu_item_use_megamenu', $use_megamenu);
 
+        $use_item_icon = isset($_POST['menu-item-use_list_icon'][$menu_item_db_id]) ? 1 : 0;
+        update_post_meta($menu_item_db_id, '_menu_item_list_icon', $use_item_icon);
+
         if(isset($_POST['menu-item-panel_column'][$menu_item_db_id])) {
             update_post_meta($menu_item_db_id, '_menu_item_panel_column', $_POST['menu-item-panel_column'][$menu_item_db_id]);
         }
@@ -64,6 +67,7 @@ class NavWalkerEditModule extends AbstractModule
     {
         if (isset($menu_item->ID)) {
             $menu_item->use_megamenu = get_post_meta($menu_item->ID, '_menu_item_use_megamenu', true);
+            $menu_item->use_list_icon = get_post_meta($menu_item->ID, '_menu_item_list_icon', true);
             $menu_item->panel_column = get_post_meta($menu_item->ID, '_menu_item_panel_column', true);
             $menu_item->mega_item_column = get_post_meta($menu_item->ID, '_menu_item_mega_item_column', true);
         }

@@ -214,6 +214,12 @@ class NavWalkerEdit extends Walker_Nav_Menu
                     </select>
                 </label>
             </p>
+            <p class="field-list-icon description">
+                <label for="edit-menu-item-use_list_icon-<?php echo $item_id; ?>">
+                    <input type="checkbox" id="edit-menu-item-use_list_icon-<?php echo $item_id; ?>" value="1" name="menu-item-use_list_icon[<?php echo $item_id; ?>]"<?php checked( $item->use_list_icon, '1' ); ?> />
+                    <?php _e( 'List Icon' ); ?>
+                </label>
+            </p>
             <?php
             /**
              * Fires just before the move buttons of a nav menu item in the menu editor.
