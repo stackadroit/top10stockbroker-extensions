@@ -6,7 +6,7 @@
  * Author:         	Praneeth Polu
  * Author URL:     	http://polupraneeth.me/
  * Version:        	1.0.0
- * Text Domain: 	top10stockbroker-extensions
+ * Text Domain: 	top10stockbroker-ext
  * Domain Path: 	/languages
  *
  * License:            MIT License

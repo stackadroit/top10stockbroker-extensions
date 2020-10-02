@@ -102,12 +102,10 @@ class NavWalker extends Walker_Nav_Menu
         // Re-add core `menu-item-has-children` class on parent elements
         if ($item->is_subitem && $depth == 0) {
             $classes[] = 'menu-item-has-children';
-            //$classes[] = 'dropdown';
         }
 
         if ($item->is_subitem && $depth == 1) {
             $classes[] = 'menu-item-has-children';
-            //$classes[] = 'dropdown-submenu';
         }
 
         // Add `menu-<slug>` class
@@ -142,10 +140,6 @@ class NavWalker extends Walker_Nav_Menu
 
         // add clearfix for clear float
         $classes[] = 'clearfix';
-
-        // drop down menu
-        //$classes[] = 'dropdown-menu';
-
 
         $classes = array_unique($classes);
         $classes = array_map('trim', $classes);
