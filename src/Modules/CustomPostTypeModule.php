@@ -254,7 +254,7 @@ class CustomPostTypeModule extends AbstractModule
         $post_type = '';
         if ( in_array( $pagenow, array( 'post.php', 'edit.php', 'post-new.php'), true ) ) {     
             $post_type = isset( $_REQUEST['post_type'] ) ? $_REQUEST['post_type'] : $post_type;
-            if (empty($post_type)) {
+            if (empty($post_type) && !empty($_REQUEST) ){
                 $obj = isset( $_REQUEST['post'] ) ? get_post($_REQUEST['post']) : $post_type;
                 return $obj->post_type;
             }
